@@ -11,8 +11,6 @@ Blah, blah, blah stuff describing the general project.
 [Analysis Parameters](#analysis-parameters)
 
 [Methodology](#methodology)
-   - [Summary](#summary)
-   - [Detailed](#detailed) 
 
 [Expected Outcomes](#expected-outcomes)
 
@@ -63,24 +61,8 @@ As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit 
 | Waste Disposal                                             |                |                | 5622           |
 | Waste Remediation                                          |                |                | 5629           |
 
-### Supply Chain Roles and NAICs Classifications
-
-| Production |               | Transportation |                                       | Distribution |                             | Retail |        | Waste |                   |
-|------------|---------------|----------------|---------------------------------------|--------------|-----------------------------|--------|--------|-------|-------------------|
-| NAICS      | Sector        | NAICS          | Sector                                | NAICS        | Sector                      | NAICS  | Sector | NAICS | Sector            |
-| 11         | Ag. Forestry  | 481            | Air Transportation                    | 423          | Durable Goods Wholesale     | 44     | Retail | 5621  | Waste Collection  |
-| 21         | Mining        | 482            | Rail Transportation                   | 424          | Non-Durable Goods Wholesale | 45     | Retail | 5622  | Waste Disposal    |
-| 23         | Construction  | 483            | Water Transportation                  | 425          | Wholesale Agents & Brokers  |        |        | 5629  | Waste Remediation |
-| 31         | Manufacturing | 484            | Truck Transportation                  | 493          | Warehousing and Storage     |        |        |       |                   |
-| 32         | Manufacturing | 486            | Pipeline Transportation               |              |                             |        |        |       |                   |
-| 33         | Manufacturing | 488            | Support Activities for Transportation |              |                             |        |        |       |                   |
-|            |               | 491            | Postal Service                        |              |                             |        |        |       |                   |
-|            |               | 492            | Couriers and Messengers               |              |                             |        |        |       |                   |
-
 
 ## Methodology 
-
-### Summary
 
 1. [Create Northern California Megaregion Businesses FC](#create-northern-california-megaregion-business-fc)
 
@@ -110,32 +92,6 @@ As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit 
 
    [2015 Earnings and Employment Status Data - California](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/data/ACS_15_5YR_B08119_with_ann.csv)
 
-### Detailed 
-
-#### Create San Francisco Bay Region Parcel Feature Set 
-
-Script:
-
-- [Create Northern California Megaregion Business FC Script](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/scripts/Python/Create_Northern_CA_Megaregion_Businesses_2016_FC.py)
-
-Input:
-
-- [California Business Data](#data-sources)
-- [Northern California Megaregion Counties](#feature-classes--csvs)
-
-Output: 
-
-- [GMS 2016 North CA Megaregion Businesses](#feature-classes--csvs)
-
-Output Data Dictionary: 
-Four fields were added to the original [GMS_2016_CA_Businesses](#feature-classes--csvs) feature class; the full domain of each field is summarized in the table below:
-
-|Field Name     |Values              |
-|---------------|--------------------|
-|County         |Alameda, Contra Costa, El Dorado, Marin, Merced, Monterey, Napa, Placer, Sacramento, San,Benito, San Francisco, San Joaquin, San Mateo, Santa Clara, Santa Cruz, Solano, Sonoma, Stanislaus, Sutter, Yolo, Yuba|
-|Region         |Bay Area, Monterey Bay Area, Northern San Joaquin Valley, Sacramento Area|
-|Goods_Mvmt_Class |1, 2, 3 See: [NAICS Mapping to Goods Movement Classes](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/data/NAICS_Mapping_to_Goods_Mvmt_Classes.csv)|
-|Supply_Chain_Class |1, 2, 3, 4, 5, 6 See: [NAICS Mapping to Supply Chain Classes](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/data/NAICS_Mapping_to_Supply_Chain_Classes.csv)|
 
 #### Create Northern Claifornia Mega Region Employment Density Feature Classes
 
