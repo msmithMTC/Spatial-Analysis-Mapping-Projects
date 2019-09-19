@@ -44,6 +44,7 @@ As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit 
 
 ## Methodology 
 
+***Process County Feature Sets***
 1. [Create Northern California Megaregion Businesses FC](#create-northern-california-megaregion-business-fc)
 
    - [Create Northern California Megaregion Business FC Script](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/scripts/Python/Create_Northern_CA_Megaregion_Businesses_2016_FC.py)
@@ -73,93 +74,12 @@ As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit 
    [2015 Earnings and Employment Status Data - California](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/data/ACS_15_5YR_B08119_with_ann.csv)
 
 
-#### Create Northern Claifornia Mega Region Employment Density Feature Classes
-
+***Assemble Regional Feature Sets***
 Two custom tools were created using ArcGIS Pro Model Builder to generate the final output feature class, as well as intermediary feature classes & rasters. The feature class generated highlights employment density within [FMMP Urban and Built Up](http://www.conservation.ca.gov/dlrp/fmmp/mccu/Pages/map_categories.aspx) areas. The toolbox containing the tools is linked below. Assumptions are maintained as defaults within the tools.
 
-***Select By Attribute Create Point Density Raster*** 
-
-Tool: [Select_By_Attr_Create_Point_Density_Raster](#tools) 
-
-![Select by Attr Create Point Density Raster Model](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/readme_images/Screen%20Shot%202017-05-25%20at%2010.54.57%20AM.png)
-
-Input: 
-
-- [GMS 2016 North CA Megaregion Businesses](#feature-classes--csvs)
-
-Tool Input Values: 
-
-  - Population field: EMPNUM
-  - Expressions: 
-      - All Industries: ```'Goods_Mvmt_Class IN (1,2,3)'``` 
-      - Core Industries: ```'Goods_Mvmt_Class = 1'```
-      - Dependent Industries: ```'Goods_Mvmt_Class = 2'```
-      - Supported Industries: ```'Goods_Mvmt_Class = 3'```
-      - Production: ```'Supply_Chain_Class = 1'```
-      - Transportation: ```'Supply_Chain_Class = 2'``` 
-      - Distribution: ```'Supply_Chain_Class = 3'```
-      - Retail: ```'Supply_Chain_Class = 4'```
-      - Waste: ```'Supply_Chain_Class = 5'```
-  - Output Cell Size: 20
-  - Mask: [NC_Mega_Region_FMMP_Urban_2014_SF (Polygon)](#feature-classes--csvs)
-    - Built - up areas
-
-Tool Assumptions: 
-
-![Point Density Inputs](https://github.com/BayAreaMetro/regional-goods-movement/blob/master/Northern-California-Megaregion-Employment-Density-Maps/readme_images/Screen%20Shot%202017-06-08%20at%2010.12.04%20AM.png)
-
-Output: 
-
-This process created 9 output rasters, each following a patterned naming convention followed by the goods movement or supply chain class to to disambiguate each feature. Examples of that convention are provided below. These are intermediate features, which will were reclassified and converted from raster to polygon in the following process. To see the name of each output, follow the respective links below.    
-
-  - [NC_Megaregion_Emp_Density_GoodsMvmtClass (Raster)](#feature-classes--csvs)
-  - [NC_Megaregion_Emp_Density_SupplyChainClass (Raster)](#feature-classes--csvs)
-
-***Reclassify Convert Raster to Polygon***
-
-Tool: [Reclassify_Convert_Raster_to_Polygon](#tools)
-
-![Reclassify Convert Raster to Polygon](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/readme_images/Screen%20Shot%202017-05-25%20at%2010.57.25%20AM.png)
-
-Input: 
-
-This process was not integrated into the last process as each of the input rasters to the process needed to be classified seperately. Reclassification tables were created for each reclass feature and are referenced below. the 9 output rasters created from the previous process were input into this tool, each following a patterend naming convention followed by the goods movement or supply chain class. 
-
-- [NC_Megaregion_Emp_Density_GoodsMvmtClass (Raster)](#feature-classes--csvs)
-- [NC_Megaregion_Emp_Density_SupplyChainClass (Raster)](#feature-classes--csvs)
-
-Tool Input Values: 
-
-Each raster was reclassified, creating classes by standard deviation values. Those values were stored in tables for reference each following a pattered naming convention followed by the goods movement or supply chain class to disambiguate each feature.
-Examples of that convention are provided below.
-
-- [Reclass_Table_GoodsMvmtClass](#feature-classes--csvs)
-- [Reclass_Table_SupplyChainClass](#feature-classes--csvs)
-
-Output: 
-
-This process created 9 output vector feature classes, each following a patterned naming convention followed by the goods movement or supply chain class and 'rc' or reclassifed to to disambiguate each feature. Examples of that convention are provided below. 
-
-- [NC_Mega_Region_Emp_Density_GoodsMvmtClass_RC (Raster)](#feature-classes--csvs)
-- [NC_Mega_Region_Emp_Density_SupplyChainClass_RC (Raster)](#feature-classes--csvs) 
-
-#### Employment Summary by Goods Movement Class / Supply Chain Class
-
-Script: 
-
-[Create_megaregion_Employment_Summaries](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/scripts/Python/Create_Megaregion_Employment_Summaries.py)
-
-Input: 
-
-- [GMS 2016 North CA Megaregion Businesses](#feature-classes--csvs)
-
-Output: 
-
-- [2016_Megaregion_Emp_Tot_By_GM_Class.csv](#feature-classes--csvs)
-- [2016_Megaregion_Emp_Tot_By_SC_Class.csv](#feature-classes--csvs)
 
 ## Results 
-All end products on sites limited to Metropolitan Transportation Commission staff (requires login)
+All end products on sites limited to Metropolitan Transportation Commission staff (require login)
 
 #### Socrata
 - [San Francisco Bay Region Parcels (2019)](https://data.bayareametro.gov/Cadastral/Parcels-2019/kah7-2qc6)
