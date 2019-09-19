@@ -90,13 +90,13 @@ For each county:
 1. Run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
 
 2. Check projection of source feature set. Projection used at MTC is GCS WGS 1984:
-  + If feature set needs to be projected, have Project tool create output feature set in working file geodatabase
-    + Alameda County was projected from WGS 1984 Web Mercator Auxiliary Sphere without transformation as it is, technically, the same as GCS WGS 1984
-    + Contra Costa County was projected from NAD 1983 StatePlane California III FIPS 0403 Feet using the NAD_1983_HARN_To_WGS_1984_2 transformation
-    + Marin County was projected from NAD 1983 HARN StatePlane California III FIPS 0403 (US Feet) using the NAD_1983_HARN_To_WGS_1984_2 transformation
-    + Napa County was projected from NAD 1983 HARN StatePlane California II FIPS 0402 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
-
-  + If feature set does not need to be projected, export features to working file geodatabase
+>  + If feature set needs to be projected, have Project tool create output feature set in working file geodatabase
+>    + Alameda County was projected from WGS 1984 Web Mercator Auxiliary Sphere without transformation as it is, technically, the same as GCS WGS 1984
+>    + Contra Costa County was projected from NAD 1983 StatePlane California III FIPS 0403 Feet using the NAD_1983_HARN_To_WGS_1984_2 transformation
+>    + Marin County was projected from NAD 1983 HARN StatePlane California III FIPS 0403 (US Feet) using the NAD_1983_HARN_To_WGS_1984_2 transformation
+>    + Napa County was projected from NAD 1983 HARN StatePlane California II FIPS 0402 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
+>
+>  + If feature set does not need to be projected, export features to working file geodatabase
   
 3. Delete unnecessary fields from attribute table 
 
