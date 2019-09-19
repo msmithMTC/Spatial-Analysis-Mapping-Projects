@@ -1,6 +1,7 @@
 # San Francisco Bay Region Parcels (2019) 
 
-Blah, blah, blah stuff describing the general project.
+Parcels form the base unit of much of the analysis performed by the Metropolitan Transportation Commission (MTC) Regional Planning Program (RPP), specifically the Data & Visualization and Modeling groups.
+
 
 ### Contents 
 
@@ -18,7 +19,7 @@ Blah, blah, blah stuff describing the general project.
 
 
 ## Problem Statement
-The purpose of this project is to create a 2019 parcel feature set for the San Francisco Bay Region. . 
+The purpose of this project is to create 2019 parcel feature sets for the San Francisco Bay Region and each of its nine counties. 
 
 
 ## Data Sources 
@@ -39,7 +40,7 @@ All datasets downloaded on August 26, 2019
 
 ## Analysis Parameters
 
-As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit codes to what we've defined as Supply Chain Roles. Similarly, we mapped NAICS 2 digit, 3 digit, and 4 digit codes to what we've defined as Goods Movement - Related Industries and Occuplations. Following are tables which group NAICS codes into classes.
+Overview of how source data was blah, blah, blah
 
 
 ## Methodology 
