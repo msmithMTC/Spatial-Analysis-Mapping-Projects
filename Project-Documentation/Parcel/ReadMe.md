@@ -78,6 +78,10 @@ As part of this analysis process, we mapped NAICS 2 digit, 3 digit, and 4 digit 
 Two custom tools were created using ArcGIS Pro Model Builder to generate the final output feature class, as well as intermediary feature classes & rasters. The feature class generated highlights employment density within [FMMP Urban and Built Up](http://www.conservation.ca.gov/dlrp/fmmp/mccu/Pages/map_categories.aspx) areas. The toolbox containing the tools is linked below. Assumptions are maintained as defaults within the tools.
 
 
+## Expected Outcomes
+The expectation was there would be blah, blah, blah
+
+
 ## Results 
 All end products on sites limited to Metropolitan Transportation Commission staff (require login)
 
