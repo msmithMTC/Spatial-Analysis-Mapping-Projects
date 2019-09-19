@@ -64,36 +64,41 @@ The APN fields are the only attribute fields included from the source data. The 
 
 ## Methodology 
 
-***Preparation***
+***Feature Preparation***
 
-__Contra Costa__
-
-The source feature set of parcel polygons did not include APN values for the parcels. The only attibute was a join value. As a result, a parcel point feature set also needed to be downloaded. The point feature set contained the APN, and other attributes, for the parcel polygons. As there were more points than polygons, this seemed to be done to prevent the inclusion of stacked polygons in the polygon feature set. Since Contra Costa County was the only county to do this. County data preparation was:
+__Contra Costa__ - The source feature set of parcel polygons did not include APN values for the parcels. The only attibute was a join value. As a result, a parcel point feature set also needed to be downloaded. The point feature set contained the APN, and other attributes, for the parcel polygons. As there were more points than polygons, this seemed to be done to prevent the inclusion of stacked polygons in the polygon feature set. Since Contra Costa County was the only county to do this. County data preparation was:
   + Join parcel points to parcel polygons using the XXXXXXXXX field
   + Export new polygon feature set
   + Delete duplicate join field
 
-__San Francisco__
-
-The source feature set of San Francisco parcels included both active and inactive parcels. County data preparation was:
+__San Francisco__ - The source feature set of San Francisco parcels included both active and inactive parcels. County data preparation was:
   + Select parcels with a value of 1 in the active_ret field. Available values were 1 - active and 0 - retired
   + Export selected parcels as new feature set
 
-__Solano__
-
-Start here
-
+__Solano__ - The parcel feature set released in 2019 had hundreds of missing parcels. To address this, the 2018 release was also downloaded so a, mostly (both versions had missing parcels), complete parcel coverage for the county could be created. County data preparation was:
+  + Erase areas in 2018 release using features from the 2019 release
+  + Run Repair Geometry tool on remaining areas from 2018 release with OGC and Delete Features with Null Geometry parameters selected
+  + Merge remaining areas from 2018 release with the 2019 release
+  + Calculate APNs from each release into a single field. One of the releases had two APN fields, both of which were incomplete. However, each parcel had an APN if the fields were combined
+  + Run Dissolve tool, using the new, complete APN field, to create a new multipart feature set
 
 
 
 ***Process County Feature Sets***
-1. [Create Northern California Megaregion Businesses FC](#create-northern-california-megaregion-business-fc)
 
-   - [Create Northern California Megaregion Business FC Script](https://github.com/BayAreaMetro/Spatial-Analysis-Mapping-Projects/blob/master/Regional-Goods-Movement/scripts/Python/Create_Northern_CA_Megaregion_Businesses_2016_FC.py)
+For each county:
+1. Run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
 
-2. [Create Nothern California Megaregion Employment Density Feature Classes](#create-northern-claifornia-mega-region-employment-density-feature-classes)
+2. Check projection of source feature set. Projection used at MTC is GCS WGS 1984:
+  + If feature set needs to be projected, have Project tool create output feature set in working file geodatabase
+    + Alameda County was projected from WGS 1984 Web Mercator Auxiliary Sphere without transformation as it is, technically, the same as GCS WGS 1984
+    + Contra Costa County was projected from NAD 1983 StatePlane California III FIPS 0403 Feet using the NAD_1983_HARN_To_WGS_1984_2 transformation
+    + Marin County was projected from NAD 1983 HARN StatePlane California III FIPS 0403 (US Feet) using the NAD_1983_HARN_To_WGS_1984_2 transformation
+    + Napa County was projected from NAD 1983 HARN StatePlane California II FIPS 0402 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
+
+  + If feature set does not need to be projected, export features to working file geodatabase
   
-3. [Employment Summary by Goods Movement Class / Supply Chain Class](#employment-summary-by-goods-movement-class--supply-chain-class) 
+3. Delete unnecessary fields from attribute table 
 
 
 ***Assemble Regional Feature Sets***
