@@ -159,7 +159,18 @@ Output:
 - [2016_Megaregion_Emp_Tot_By_SC_Class.csv](#feature-classes--csvs)
 
 ## Results 
+All end products on sites limited to Metropolitan Transportation Commission staff (requires login)
 
-### Feature Classes & CSVs
+#### Socrata
+- [San Francisco Bay Region Parcels (2019)](https://data.bayareametro.gov/Cadastral/Parcels-2019/kah7-2qc6)
 
-- [San Francisco Bay Region Parcels (2019)](https://socrata.com/s/randomStringofLettersandNumbers)
+#### ArcGIS Online
+- [Alameda County Parcels (2019)]()
+- [Contra Costa County Parcels (2019)]()
+- [Marin County Parcels (2019)]()
+- [Napa County Parcels (2019)]()
+- [San Francisco Parcels (2019)]()
+- [San Mateo County Parcels (2019)]()
+- [Santa Clara County Parcels (2019)]()
+- [Solano County Parcels (2019)]()
+- [Sonoma County Parcels (2019)]()
