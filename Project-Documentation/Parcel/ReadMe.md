@@ -42,11 +42,17 @@ All datasets downloaded on August 26, 2019
 
 As part of the development of these feature sets, the number of parcel attributes was kept to a minimum. The final attribute tables have the following fields:
   * **joinid** - Identification value for joining external tables to parcel features
+  
   * **fipco** - Federal Information Processing Standards (FIPS) code for the county containing the parcel
+  
   * **jurisdict** - Incorporated jurisdiction containing the parcel. Parcels outside incorporated jurisdiction boundaries were labeled using the following format - "Unincorporated _countyName_"
+  
   * **apn** - Unformatted Assessor's Parcel Number (APN)
+  
   * **apn_frm** - Formatted APN
+  
   * **acres** - Parcel size in gross acres
+  
   * **wtrprcl** - Identifies whether parcel is on land or in water (this field is only included in the regional feature set on Socrata)
 
 
