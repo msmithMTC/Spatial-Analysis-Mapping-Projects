@@ -152,7 +152,7 @@ For each county:
 10. Run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
 
 11. Run Clip tool to make parcel feature set conform to county boundary in TomTom base data. This is done because of differences in base data sources and projections utilized by counties in the region. The lack of base data and projection standards in the region results in parcels for one county appearing in a neighboring county
->  + This does result in the loss of some parcels, but the loss is insignificant enough that it is considered acceptable
+>  + This does result in the loss of some parcels, but the loss is insignificant enough that it is acceptable
 >  + This also results in some parcels becoming smaller because they are partially within a neighboring county. Acres were calculated using the original features so the value reflects the size of the feature provided by the county
 
 12. Run Multipart To Singlepart tool on clipped feature set
