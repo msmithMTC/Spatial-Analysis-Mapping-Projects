@@ -142,35 +142,73 @@ For each county:
 >  + Calculate "Unincorporated _countyName_" as value. Values used were: Unincorporated Alameda, Unincorporated Contra Costa, Unincorporated Marin, Unincorporated Napa, Unincorporated San Mateo, Unincorporated Santa Clara, Unincorporated Solano, and Unincorporated Sonoma. As city and county boundaries are the same, there are not unincorporated areas in San Francisco.
 
 8. Calculate remaining new fields:
->  + __fipco__ - Calculate using same county values as TomTom base data: CA001 (Alameda County), CA013 (Contra Costa County), CA041 (Marin County), CA055 (Napa County), CA075 (City & County of San Francisco), CA081 (San Mateo County), CA085 (Santa Clara County), CA095 (Solano County), and CA097 (Sonoma County)
->  + __apn__ - Calculate using source field, when provided
+>  + __fipco__ - Calculate using same county value as the TomTom base data: CA001 (Alameda County), CA013 (Contra Costa County), CA041 (Marin County), CA055 (Napa County), CA075 (City & County of San Francisco), CA081 (San Mateo County), CA085 (Santa Clara County), CA095 (Solano County), and CA097 (Sonoma County)
+>  + __apn__ - Calculate using either the source field, when provided, or by deleting the connecting character from a formatted APN field
 >  + __apn_frm__ - Calculate using source field, when provided as either a single field or could be assembled from multiple source fields without changing values of those fields. If neither of those options were available, this field was left blank
->  + __acres__ - Calculate using Calculate Geometry Attributes tool with area selected as XXXXX and NAD 1983 UTM Zone 10N as the coordinate system used to calculate the area of the parcel feature
->  + __wtrprcl__ - This field is only used on the singlepart, regional feature set on Socrata.
+>  + __acres__ - Calculate using Calculate Geometry Attributes tool with area selected as the Target Field property and NAD 1983 UTM Zone 10N as the coordinate system used to calculate the area of the parcel feature
+
+9. Delete original, source fields
+
+10. Run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
+
+11. Run Clip tool to make parcel feature set conform to county boundary in TomTom base data. This is done because of differences in base data sources and projections utilized by counties in the region. The lack of base data and projection standards in the region results in parcels for one county appearing in a neighboring county
+>  + This does result in the loss of some parcels, but the loss is insignificant enough that it is considered acceptable
+>  + This also results in some parcels becoming smaller because they are partially within a neighboring county. Acres were calculated using the original features so the value reflects the size of the feature provided by the county
+
+12. Run Multipart To Singlepart tool on clipped feature set
+
+13. Delete ORIG_FID field
+
+14. Run Repair Geometry tool, with OGC and Delete Features with Null Geometry parameters selected, to correct errors exposed/created by either the Clip and/or Multipart To Singlepart tool
+
+15. Run Dissolve tool, selecting all non-ESRI fields, to create replacement multipart, parcel feature set
+
+16. Run Repair Geometry tool, with OGC and Delete Features with Null Geometry parameters selected, on new multipart feature set
+
+17. Export county, multipart (dissolved) feature sets to the project file geodatabase (project file geodatabase automatically created by ArcGIS Pro when first creating the project)
+
+18. Export county, singlepart (exploded) feature sets to the project file geodatabase
 
 
 ***Assemble Regional Feature Sets***
 
-Blah, blah, blah
+19. Run Merge tool to assemble multipart, county-specific feature sets into a regional feature set in the project file geodatabase
+
+20. Run Merge tool to assemble singlepart, county-specific feature sets into a regional feature set in the project file geodatabase
+
+21. For regional, singlepart feature set only, add wtrprcl field to the attribute table so parcels can be designated as being either on land or in water. The need for this field is specific to a use required by the RPP Data & Visualization group. Values calculated by:
+>    + Run Select Layer By Location tool on parcel feature set, with major water features from TomTom base data as the Selecting Features and the Relationship parameter set to Within. The Within parameter is used so parcels that are mostly over water, but still have a portion on land are not excluded when querying out water parcels.
+>    + Enter 1 (water parcel) in field for all selected features
+>    + Right-click layer and select Switch Selection from Selection section of menu
+>    + Enter 0 (land parcel) in field for all selected features
+>    + Clear all selected features
+
+22. Upload all parcel feature sets (county, multipart region, singlepart region) to enterprise database using OSGeo4W Shell from QGIS
+
+23. Upload county feature sets to ArcGIS Online using Share As Web Layer function
+
+24. Convert regional, singlepart feature set to GeoJSON using Features To JSON tool
+
+25. Upload regional, singlepart feature set to Socrata using GeoJSON file
 
 
 ## Expected Outcomes
-The expectation was there would be blah, blah, blah
+The expectation was there would be updated parcel feature sets that MTC planning staff could import into their own analysis, mapping, and web application projects. The county feature sets available on ArcGIS Online are intended for use by planners in their analysis and mapping projects. This was done to reduce the amount of time they would need to wait for features to load from ArcGIS. If they need parcels for the full region, it is expected they would either run their analyses on each county and then merge their results or they would download each county and assemble them into a regional feature set for their project. The regional feature sets on the enterprise database are intended for projects conducted by the Data & Visualization group. The singlepart feature set on Socrata is intended for projects conducted by the Data & Visualization and Modeling groups.
 
 
 ## Results 
-All end products on sites limited to Metropolitan Transportation Commission staff (require login)
+All final, parcel feature sets were placed on ArcGIS Online and Socrata, with access permission limited to Metropolitan Transportation Commission staff. The feature sets on the enterprise database are restricted to the Data & Visualization group.
 
 #### Socrata
 - [San Francisco Bay Region Parcels (2019)](https://data.bayareametro.gov/Cadastral/Parcels-2019/kah7-2qc6)
 
 #### ArcGIS Online
-- [Alameda County Parcels (2019)]()
-- [Contra Costa County Parcels (2019)]()
-- [Marin County Parcels (2019)]()
-- [Napa County Parcels (2019)]()
-- [San Francisco Parcels (2019)]()
-- [San Mateo County Parcels (2019)]()
-- [Santa Clara County Parcels (2019)]()
-- [Solano County Parcels (2019)]()
-- [Sonoma County Parcels (2019)]()
+- [Alameda County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=63b8cd008c7242a6b18935412f90b24e)
+- [Contra Costa County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=b8c2b80f82c44ef796a1c5b589ccd0ea)
+- [Marin County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=cf5a2952561d4bb38a84a60aaef6c8b3)
+- [Napa County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=85cb0e6aedb140178eab990d89841c70)
+- [San Francisco Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=133adef01b8c44688230657cd839da78)
+- [San Mateo County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=d99b89e9834c43a4bad5396fa4187066)
+- [Santa Clara County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=88143a84f4914d48a6bb411e4b6d9d1b)
+- [Solano County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=1f2f4e27caa348a7bb2457d1fc97cc4b)
+- [Sonoma County Parcels (2019)](https://mtc.maps.arcgis.com/home/item.html?id=6b99f78c64cf4e11a12ea38ccf612e1a)
