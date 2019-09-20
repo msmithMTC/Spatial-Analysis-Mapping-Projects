@@ -84,7 +84,7 @@ __Solano__ - The parcel feature set released in 2019 had hundreds of missing par
 
 
 
-***Process County Feature Sets***
+***Process County Feature Sets*** _(Except where noted, all work was done in ArcGIS Pro 2.4.1)_
 
 For each county:
 1. Run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
@@ -130,6 +130,23 @@ For each county:
 >    + Two-letter county abbreviations, displayed as XX in expression below, are: AL (Alameda County), CC (Contra Costa County), MA (Marin County), NA (Napa County), SF (City & County of San Francisco), SM (San Mateo County), SC (Santa Clara County), SL (Solano County), and SN (Sonoma County)
 >    + Type `"XX" + !tempField!.zfill(6)` into joinid= box
 >  + Delete temporary field
+
+7. With the exception of San Francisco, which is both a city and county (each entity has the same boundary as the other), the jurisdiction values provided in the source data (when provided) was not useable. This was because the provided jurisdiction information either assigned parcels in a jurisdiction's sphere of influence (SOI) to the jurisdiction itself or included the names of unincorporated communities recognized by the United States Postal Service and United States Census Bureau, or a combination of the two. The purpose of the jurisdict field in the parcel feature sets is to identify parcels that are actually located within the jurisdiction boundaries they are labeled as being in. All other parcels are listed as being on unincorporated county land. The following was used to Calculate the jurisdict field:
+>  + Run Feature to Point tool, with Inside parameter selected, to create parcel centroids that are forced to be within the parcel boundary
+>  + Spatial Join parcel centroids to incorporated jurisdictions, from TomTom base data, for county. This will create a new feature set
+>  + Create definition query for new parcel centroid feature set so only features where name Is Not Null are returned
+>  + Join new parcel centroids to parcel polygons, using joinid field, with Keep All Target Features unchecked
+>  + Calculate jurisdict field using values from new parcel centroid feature set
+>  + Remove join so all parcel polygon features are available again
+>  + Select parcel polygon features where jurisdict value is null
+>  + Calculate "Unincorporated _countyName_" as value. Values used were: Unincorporated Alameda, Unincorporated Contra Costa, Unincorporated Marin, Unincorporated Napa, Unincorporated San Mateo, Unincorporated Santa Clara, Unincorporated Solano, and Unincorporated Sonoma. As city and county boundaries are the same, there are not unincorporated areas in San Francisco.
+
+8. Calculate remaining new fields:
+>  + __fipco__ - Calculate using same county values as TomTom base data: CA001 (Alameda County), CA013 (Contra Costa County), CA041 (Marin County), CA055 (Napa County), CA075 (City & County of San Francisco), CA081 (San Mateo County), CA085 (Santa Clara County), CA095 (Solano County), and CA097 (Sonoma County)
+>  + __apn__ - Calculate using source field, when provided
+>  + __apn_frm__ - Calculate using source field, when provided as either a single field or could be assembled from multiple source fields without changing values of those fields. If neither of those options were available, this field was left blank
+>  + __acres__ - Calculate using Calculate Geometry Attributes tool with area selected as XXXXX and NAD 1983 UTM Zone 10N as the coordinate system used to calculate the area of the parcel feature
+>  + __wtrprcl__ - This field is only used on the singlepart, regional feature set on Socrata.
 
 
 ***Assemble Regional Feature Sets***
