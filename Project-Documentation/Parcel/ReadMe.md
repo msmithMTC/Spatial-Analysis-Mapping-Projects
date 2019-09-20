@@ -124,8 +124,8 @@ For each county:
 >            rec = pStart
 >          else:
 >            rec = rec + pInterval
->          return rec;
->          ```
+>          return rec
+>        ```
 >  + Calculate joinid field by combining two-letter county abbreviation and numbers from temporary field
 >    + Two-letter county abbreviations, displayed as XX in expression below, are: AL (Alameda County), CC (Contra Costa County), MA (Marin County), NA (Napa County), SF (City & County of San Francisco), SM (San Mateo County), SC (Santa Clara County), SL (Solano County), and SN (Sonoma County)
 >    + Type `"XX" + !tempField!.zfill(6)` into joinid= box
