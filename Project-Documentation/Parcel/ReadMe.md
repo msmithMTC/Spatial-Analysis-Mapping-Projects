@@ -64,10 +64,10 @@ The APN fields are the only attribute fields included from the source data. The 
 
 ## Methodology 
 
-***Feature Preparation***
+***Feature Set Preparation***
 
 __Contra Costa__ - The source feature set of parcel polygons did not include APN values for the parcels. The only attibute was a join value. As a result, a parcel point feature set also needed to be downloaded. The point feature set contained the APN, and other attributes, for the parcel polygons. As there were more points than polygons, this seemed to be done to prevent the inclusion of stacked polygons in the polygon feature set. Since Contra Costa County was the only county to do this. County data preparation was:
-  + Join parcel points to parcel polygons using the XXXXXXXXX field
+  + Join parcel points to parcel polygons using the PARC_PY_ID field
   + Export new polygon feature set
   + Delete duplicate join field
 
@@ -91,14 +91,45 @@ For each county:
 
 2. Check projection of source feature set. Projection used at MTC is GCS WGS 1984:
 >  + If feature set needs to be projected, have Project tool create output feature set in working file geodatabase
->    + Alameda County was projected from WGS 1984 Web Mercator Auxiliary Sphere without transformation as it is, technically, the same as GCS WGS 1984
+>    + Alameda County was projected from WGS 1984 Web Mercator Auxiliary Sphere without a transformation
 >    + Contra Costa County was projected from NAD 1983 StatePlane California III FIPS 0403 Feet using the NAD_1983_HARN_To_WGS_1984_2 transformation
 >    + Marin County was projected from NAD 1983 HARN StatePlane California III FIPS 0403 (US Feet) using the NAD_1983_HARN_To_WGS_1984_2 transformation
 >    + Napa County was projected from NAD 1983 HARN StatePlane California II FIPS 0402 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
+>    + City & County of San Francisco was projected from WGS84(DD) without a transformation
+>    + San Mateo County was projected from NAD 1983 HARN StatePlane California III FIPS 0403 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
+>    + Santa Clara County was projected from WGS84(DD) without a transformation
+>    + Solano County distributes their data as GCS WGS 1984 so did not need to be projected
+>    + Sonoma County was projected from NAD 1983 HARN StatePlane California II FIPS 0402 Feet using the WGS_1984_(ITRF00)_To_NAD_1983 transformation
 >
 >  + If feature set does not need to be projected, export features to working file geodatabase
   
-3. Delete unnecessary fields from attribute table 
+3. If feature set was projected, run Repair Geometry tool with OGC and Delete Features with Null Geometry parameters selected
+
+4. Delete unnecessary fields from attribute table
+
+5. Add fields for final feature set attribute table
+
+6. Calculate joinid field:
+>  + Add temporary field (six character text field) for number portion of joinid field
+>  + Calculate sequential numbers in temporary field for all parcels:
+>    + Type autoIncrement() into the *fieldName*= box
+>    + Type the following into the Code Block section:
+>        ```python
+>        rec = 0
+>        def autoIncrement():
+>          global rec
+>          pStart = 1
+>          pInterval = 1
+>          if (rec == 0):
+>            rec = pStart
+>          else:
+>            rec = rec + pInterval
+>          return rec
+>          ```
+>  + Calculate joinid field by combining two-letter county abbreviation and numbers from temporary field
+>    + Two-letter county abbreviations, displayed as XX in expression below, are: AL (Alameda County), CC (Contra Costa County), MA (Marin County), NA (Napa County), SF (City & County of San Francisco), SM (San Mateo County), SC (Santa Clara County), SL (Solano County), and SN (Sonoma County)
+>    + Type `"XX" + !tempField!.zfill(6)` into joinid= box
+>  + Delete temporary field
 
 
 ***Assemble Regional Feature Sets***
